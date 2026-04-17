@@ -11,7 +11,7 @@ interface ICurveVyperReentrancyEnvironmentRegistryResponseView {
 }
 
 contract CurveVyperReentrancyResponse {
-    address public constant REGISTRY = address(0x0000000000000000000000000000000000003001);
+    address public immutable REGISTRY;
     address public constant DROSERA_PROTOCOL = address(0x000000000000000000000000000000000000d0A0);
     bytes32 public constant INVARIANT_ID = keccak256("CURVE_ACCOUNTED_BALANCE_MISMATCH_V2");
     uint256 public constant COOLDOWN_BLOCKS = 20;
@@ -31,6 +31,10 @@ contract CurveVyperReentrancyResponse {
     error WrongTarget();
     error WrongResponseExecutor();
     error CooldownActive();
+
+    constructor(address registry_) {
+        REGISTRY = registry_;
+    }
 
     function handleIncident(TrapAlert calldata alert) external {
         if (msg.sender != DROSERA_PROTOCOL) revert NotDrosera();

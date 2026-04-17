@@ -96,7 +96,7 @@ contract TrapLifecycleTest is TestBase {
 
 contract ResponseAuthorizationTest is TestBase {
     function testOnlyDroseraCanCallResponse() public {
-        CurveVyperReentrancyResponse response = new CurveVyperReentrancyResponse();
+        CurveVyperReentrancyResponse response = new CurveVyperReentrancyResponse(REGISTRY_ADDR);
         TrapAlert memory alert = TrapAlert({
             invariantId: keccak256("CURVE_ACCOUNTED_BALANCE_MISMATCH_V2"),
             target: TARGET,
@@ -112,7 +112,7 @@ contract ResponseAuthorizationTest is TestBase {
     }
 
     function testResponseRejectsWrongInvariant() public {
-        CurveVyperReentrancyResponse response = new CurveVyperReentrancyResponse();
+        CurveVyperReentrancyResponse response = new CurveVyperReentrancyResponse(REGISTRY_ADDR);
         TrapAlert memory alert = TrapAlert(bytes32(uint256(1)), TARGET, 1, 0, block.number, ENVIRONMENT_ID, bytes(""));
         vm.prank(DROSERA);
         bool reverted;
